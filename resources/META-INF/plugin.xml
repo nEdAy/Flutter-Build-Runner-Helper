@@ -1,0 +1,69 @@
+<idea-plugin>
+    <id>cn.neday.excavator</id>
+    <name>Flutter Build Runner Helper</name>
+    <version>1.0</version>
+    <vendor email="shengsu15@gmail.com" url="http://www.neday.cn">nEdAy</vendor>
+
+    <description><![CDATA[
+      A plugin for Android Studio that speeds up your day to day flutter development.<br />
+      Flutter Build Runner Helper, to make it easier to execute build_runner commands.<br />
+      Adds the following build_runner commands to Android Studio:<br />
+        <ul>
+            <li>Build : flutter packages pub run build_runner build</li>
+            <li>Rebuild : flutter packages pub run build_runner build --delete-conflicting-outputs</li>
+            <li>Watch : flutter packages pub run build_runner watch</li>
+            <li>Clean : flutter packages pub run build_runner clean</li>
+        </ul>
+        <br />
+        There are two basic ways to invoke a command:
+        <ul>
+            <li>Click the action button in the Toolbar.</li>
+            <li>Use the shortcut key.</li>
+        </ul>
+    ]]></description>
+
+    <change-notes><![CDATA[
+        <b>1.0</b>
+        <ul>
+            <li>Initial release.</li>
+        </ul>
+        ]]>
+    </change-notes>
+
+    <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="173.0"/>
+
+    <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+        <action id="cn.neday.excavator.action.Build" class="cn.neday.excavator.action.Build" text="Build Runner Build"
+                description="Invoked 'flutter packages pub run build_runner build'" icon="/icons/build.svg">
+            <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl meta alt B"/>
+        </action>
+        <action id="cn.neday.excavator.action.Rebuild" class="cn.neday.excavator.action.Rebuild"
+                text="Build Runner Rebuild"
+                description="Invoked 'flutter packages pub run build_runner build --delete-conflicting-outputs'"
+                icon="/icons/rebuild.svg">
+            <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl meta alt R"/>
+        </action>
+        <action id="cn.neday.excavator.action.Watch" class="cn.neday.excavator.action.Watch" text="Build Runner Watch"
+                description="Invoked 'flutter packages pub run build_runner watch'" icon="/icons/watch.svg">
+            <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl meta alt W"/>
+        </action>
+        <action id="cn.neday.excavator.action.Clean" class="cn.neday.excavator.action.Clean" text="Build Runner Clean"
+                description="Invoked 'flutter packages pub run build_runner clean'" icon="/icons/clean.svg">
+            <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl meta alt C"/>
+        </action>
+    </actions>
+</idea-plugin>

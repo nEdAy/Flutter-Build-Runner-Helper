@@ -44,24 +44,24 @@
     <actions>
         <!-- Add your actions here -->
         <action id="cn.neday.excavator.action.Build" class="cn.neday.excavator.action.Build" text="Build Runner Build"
-                description="Invoked 'flutter packages pub run build_runner build'" icon="/icons/build.svg">
+                description="Invoked 'flutter packages pub run build_runner build'" icon="/icons/ic_build.svg">
             <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl meta alt B"/>
         </action>
         <action id="cn.neday.excavator.action.Rebuild" class="cn.neday.excavator.action.Rebuild"
                 text="Build Runner Rebuild"
                 description="Invoked 'flutter packages pub run build_runner build --delete-conflicting-outputs'"
-                icon="/icons/rebuild.svg">
+                icon="/icons/ic_rebuild.svg">
             <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl meta alt R"/>
         </action>
         <action id="cn.neday.excavator.action.Watch" class="cn.neday.excavator.action.Watch" text="Build Runner Watch"
-                description="Invoked 'flutter packages pub run build_runner watch'" icon="/icons/watch.svg">
+                description="Invoked 'flutter packages pub run build_runner watch'" icon="/icons/ic_watch.svg">
             <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl meta alt W"/>
         </action>
         <action id="cn.neday.excavator.action.Clean" class="cn.neday.excavator.action.Clean" text="Build Runner Clean"
-                description="Invoked 'flutter packages pub run build_runner clean'" icon="/icons/clean.svg">
+                description="Invoked 'flutter packages pub run build_runner clean'" icon="/icons/ic_clean.svg">
             <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl meta alt C"/>
         </action>

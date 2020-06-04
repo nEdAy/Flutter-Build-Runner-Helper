@@ -19,8 +19,10 @@ import java.io.BufferedInputStream
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
+import javax.swing.JScrollBar
 import javax.swing.JScrollPane
 import javax.swing.JTextArea
+
 
 abstract class BaseAnAction : AnAction() {
 
@@ -83,25 +85,27 @@ abstract class BaseAnAction : AnAction() {
         val toolWindow: ToolWindow = ToolWindowManager.getInstance(project).getToolWindow("Flutter Build Runner Console Tool")
         // 无论当前状态为关闭/打开，进行强制打开ToolWindow
         toolWindow.show {}
-        val jTextArea = (toolWindow.contentManager.getContent(0)?.component?.getComponent(0) as JScrollPane).viewport.getComponent(0) as JTextArea
+        val jScrollPane = toolWindow.contentManager.getContent(0)?.component?.getComponent(0) as JScrollPane
+        val verticalBar: JScrollBar = jScrollPane.verticalScrollBar
+        val jTextArea = jScrollPane.viewport.getComponent(0) as JTextArea
         project.asyncTask(title = title, runAction = {
             val fillCmd = "$flutterPath $cmd"
-            log(jTextArea, "\$ $fillCmd")
+            log(jTextArea, verticalBar, "\$ $fillCmd")
             val process = Runtime.getRuntime().exec(fillCmd, null, File(dirPath))
             val bufferedInputStream = BufferedInputStream(process.inputStream)
             val bufferedReader = BufferedReader(InputStreamReader(bufferedInputStream, "GBK"))
             var lineStr: String?
             while (bufferedReader.readLine().also { lineStr = it } != null) {
-                log(jTextArea, lineStr)
+                log(jTextArea, verticalBar, lineStr)
             }
             val exitVal = process.waitFor()
             bufferedReader.close()
             bufferedInputStream.close()
             isBuildRunnerSuccess = if (exitVal == 0) {
-                log(jTextArea, "build_runner Success!")
+                log(jTextArea, verticalBar, "build_runner Success!")
                 true
             } else {
-                log(jTextArea, "build_runner Error!")
+                log(jTextArea, verticalBar, "build_runner Error!")
                 false
             }
         }, successAction = {
@@ -123,10 +127,11 @@ abstract class BaseAnAction : AnAction() {
         Messages.showMessageDialog(message, "Flutter Build Runner Helper", Messages.getErrorIcon())
     }
 
-    private fun log(jTextArea: JTextArea, message: String?) {
+    private fun log(jTextArea: JTextArea, verticalBar: JScrollBar, message: String?) {
         if (!message.isNullOrEmpty()) {
             println(message)
             jTextArea.append("\n" + message)
+            verticalBar.value = verticalBar.maximum
         }
     }
 

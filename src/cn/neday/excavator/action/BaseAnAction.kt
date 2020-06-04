@@ -41,7 +41,7 @@ abstract class BaseAnAction : AnAction() {
             if (flutterPath.isNullOrEmpty()) {
                 val isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows")
                 val flutterName = if (isWindows) "flutter.bat" else "flutter"
-                showInfo("flutter path not know, where is your flutter? Please choose your flutter, maybe it path is 'flutterDir/bin/$flutterName'.")
+                showInfo("flutter path not know, where is your flutter? Please choose your flutter, maybe it path is '../../flutter/bin/$flutterName'.")
                 flutterPath = chooseFlutterPath(project, flutterName)
                 if (flutterPath == CANCEL_SIGNAL) {
                     return

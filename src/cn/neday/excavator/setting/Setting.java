@@ -44,7 +44,7 @@ public class Setting implements Configurable {
         mTitle.setText("Flutter Path");
         boolean isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
         String flutterName = isWindows ? "flutter.bat" : "flutter";
-        String hintWord = "Please choose your flutter, maybe it path is 'flutterDir/bin/" + flutterName + "'.";
+        String hintWord = "Please choose your flutter, maybe it path is '../../flutter/bin/" + flutterName + "'.";
         mHint.setText(hintWord);
         PropertiesComponent propertiesComponent = PropertiesComponent.getInstance();
         String flutterPath = propertiesComponent.getValue(FLUTTER_PATH_KEY);

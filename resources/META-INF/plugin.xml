@@ -52,7 +52,7 @@
          on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
 
-    <extensions defaultExtensionNs="com.intellij">g
+    <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
         <!-- 自定义配置界面 -->
         <applicationConfigurable instance="cn.neday.excavator.setting.Setting"/>

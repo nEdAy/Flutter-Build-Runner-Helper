@@ -76,6 +76,7 @@ abstract class BaseAnAction : AnAction() {
     }
 
     private fun execCommand(project: Project, flutterPath: String, dirPath: String) {
+        var isBuildRunnerSuccess = false
         project.asyncTask(title = title, runAction = {
             val commandArray = if (isWindows) {
                 arrayOf("cmd.exe", "-c", "$flutterPath $cmd")
@@ -94,11 +95,17 @@ abstract class BaseAnAction : AnAction() {
             bufferedInputStream.close()
             if (exitVal == 0) {
                 println("Success!")
+                isBuildRunnerSuccess = true
             } else {
                 println("Error!")
+                isBuildRunnerSuccess = false
             }
         }, successAction = {
-            showInfo(successMessage)
+            if (isBuildRunnerSuccess) {
+                showInfo(successMessage)
+            } else {
+                showErrorMessage("An exception error occurred during build_runner execution. Please manually execute and resolve the error before using this plugin.")
+            }
         }, failAction = {
             showErrorMessage(errorMessage + ", message:" + it.localizedMessage)
         })

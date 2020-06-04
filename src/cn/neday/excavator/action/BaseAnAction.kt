@@ -1,12 +1,13 @@
 package cn.neday.excavator.action
 
 import cn.neday.excavator.checker.ProjectChecker
+import cn.neday.excavator.setting.Setting.FLUTTER_PATH_KEY
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.fileChooser.FileChooser
-import com.intellij.openapi.fileChooser.FileChooserDescriptor
+import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.progress.PerformInBackgroundOption
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.Task
@@ -21,21 +22,12 @@ import java.io.InputStreamReader
 import javax.swing.JScrollPane
 import javax.swing.JTextArea
 
-
 abstract class BaseAnAction : AnAction() {
 
     abstract val cmd: String
     abstract val title: String
     abstract val successMessage: String
     abstract val errorMessage: String
-
-    var isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows")
-
-    companion object {
-
-        const val FLUTTER_PATH_KEY = "flutter_path"
-        const val CANCEL_SIGNAL = "Cancel_Signal"
-    }
 
     override fun update(event: AnActionEvent) {
         event.presentation.isEnabledAndVisible = true
@@ -47,8 +39,10 @@ abstract class BaseAnAction : AnAction() {
             val propertiesComponent = PropertiesComponent.getInstance()
             var flutterPath = propertiesComponent.getValue(FLUTTER_PATH_KEY)
             if (flutterPath.isNullOrEmpty()) {
-                showInfo("flutter path not know, where is your flutter? Please choose your flutter, maybe it path is 'flutterDir/bin/flutter'.")
-                flutterPath = chooseFlutterPath(project)
+                val isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows")
+                val flutterName = if (isWindows) "flutter.bat" else "flutter"
+                showInfo("flutter path not know, where is your flutter? Please choose your flutter, maybe it path is 'flutterDir/bin/$flutterName'.")
+                flutterPath = chooseFlutterPath(project, flutterName)
                 if (flutterPath == CANCEL_SIGNAL) {
                     return
                 }
@@ -63,17 +57,21 @@ abstract class BaseAnAction : AnAction() {
         } ?: showErrorMessage("Current directory does not seem to be a project directory.")
     }
 
-    private fun chooseFlutterPath(project: Project): String {
-        val descriptor = FileChooserDescriptor(true, false, false, false, false, false)
+    private fun chooseFlutterPath(project: Project, flutterName: String): String {
+        val descriptor = FileChooserDescriptorFactory.createSingleFileDescriptor()
+                .withFileFilter { virtualFile ->
+                    val name = virtualFile.name.toLowerCase()
+                    name == flutterName
+                }
         val selectedFile = FileChooser.chooseFiles(descriptor, project, null)
         if (selectedFile.isEmpty()) {
             showErrorMessage("You didn't choose any files. Cancel the action.")
             return CANCEL_SIGNAL
         }
         val file = selectedFile[0]
-        return if (file.name != "flutter") {
+        return if (file.name != flutterName) {
             showErrorMessage("The file you choose is not flutter. Please choose again.")
-            chooseFlutterPath(project)
+            chooseFlutterPath(project, flutterName)
         } else {
             file.path
         }
@@ -88,10 +86,8 @@ abstract class BaseAnAction : AnAction() {
         val jTextArea = (toolWindow.contentManager.getContent(0)?.component?.getComponent(0) as JScrollPane).viewport.getComponent(0) as JTextArea
         project.asyncTask(title = title, runAction = {
             val fillCmd = "$flutterPath $cmd"
-            val command = if (isWindows) "cmd.exe" else "bash"
-            val commandArray = arrayOf(command, "-c", fillCmd)
-            log(jTextArea, "\$ $command -c $fillCmd")
-            val process = Runtime.getRuntime().exec(commandArray, null, File(dirPath))
+            log(jTextArea, "\$ $fillCmd")
+            val process = Runtime.getRuntime().exec(fillCmd, null, File(dirPath))
             val bufferedInputStream = BufferedInputStream(process.inputStream)
             val bufferedReader = BufferedReader(InputStreamReader(bufferedInputStream, "GBK"))
             var lineStr: String?
@@ -132,6 +128,11 @@ abstract class BaseAnAction : AnAction() {
             println(message)
             jTextArea.append("\n" + message)
         }
+    }
+
+    companion object {
+
+        const val CANCEL_SIGNAL = "Cancel_Signal"
     }
 }
 

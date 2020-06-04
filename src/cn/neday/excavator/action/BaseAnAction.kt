@@ -132,7 +132,7 @@ abstract class BaseAnAction : AnAction() {
 
     companion object {
 
-        const val CANCEL_SIGNAL = "Cancel_Signal"
+        const val CANCEL_SIGNAL = "CANCEL_SIGNAL"
     }
 }
 

@@ -12,10 +12,14 @@ import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
+import com.intellij.openapi.wm.ToolWindow
+import com.intellij.openapi.wm.ToolWindowManager
 import java.io.BufferedInputStream
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
+import javax.swing.JScrollPane
+import javax.swing.JTextArea
 
 
 abstract class BaseAnAction : AnAction() {
@@ -77,28 +81,32 @@ abstract class BaseAnAction : AnAction() {
 
     private fun execCommand(project: Project, flutterPath: String, dirPath: String) {
         var isBuildRunnerSuccess = false
+        // 将项目对象，ToolWindow的id传入，获取控件对象
+        val toolWindow: ToolWindow = ToolWindowManager.getInstance(project).getToolWindow("Flutter Build Runner Console Tool")
+        // 无论当前状态为关闭/打开，进行强制打开ToolWindow
+        toolWindow.show {}
+        val jTextArea = (toolWindow.contentManager.getContent(0)?.component?.getComponent(0) as JScrollPane).viewport.getComponent(0) as JTextArea
         project.asyncTask(title = title, runAction = {
-            val commandArray = if (isWindows) {
-                arrayOf("cmd.exe", "-c", "$flutterPath $cmd")
-            } else {
-                arrayOf("bash", "-c", "$flutterPath $cmd")
-            }
+            val fillCmd = "$flutterPath $cmd"
+            val command = if (isWindows) "cmd.exe" else "bash"
+            val commandArray = arrayOf(command, "-c", fillCmd)
+            log(jTextArea, "\$ $command -c $fillCmd")
             val process = Runtime.getRuntime().exec(commandArray, null, File(dirPath))
             val bufferedInputStream = BufferedInputStream(process.inputStream)
             val bufferedReader = BufferedReader(InputStreamReader(bufferedInputStream, "GBK"))
             var lineStr: String?
             while (bufferedReader.readLine().also { lineStr = it } != null) {
-                println(lineStr)
+                log(jTextArea, lineStr)
             }
             val exitVal = process.waitFor()
             bufferedReader.close()
             bufferedInputStream.close()
-            if (exitVal == 0) {
-                println("Success!")
-                isBuildRunnerSuccess = true
+            isBuildRunnerSuccess = if (exitVal == 0) {
+                log(jTextArea, "build_runner Success!")
+                true
             } else {
-                println("Error!")
-                isBuildRunnerSuccess = false
+                log(jTextArea, "build_runner Error!")
+                false
             }
         }, successAction = {
             if (isBuildRunnerSuccess) {
@@ -117,6 +125,13 @@ abstract class BaseAnAction : AnAction() {
 
     private fun showErrorMessage(message: String) {
         Messages.showMessageDialog(message, "Flutter Build Runner Helper", Messages.getErrorIcon())
+    }
+
+    private fun log(jTextArea: JTextArea, message: String?) {
+        if (!message.isNullOrEmpty()) {
+            println(message)
+            jTextArea.append("\n" + message)
+        }
     }
 }
 

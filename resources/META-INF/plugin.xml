@@ -45,6 +45,12 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
+        <!-- 自定义控制台输入 -->
+        <!-- canCloseContents 允许用户关闭 -->
+        <toolWindow canCloseContents="true" anchor="bottom"
+                    id="Flutter Build Runner Console Tool" icon="/icons/ic_excavator.svg"
+                    factoryClass="cn.neday.excavator.tool.ConsoleToolFactory">
+        </toolWindow>
     </extensions>
 
     <actions>

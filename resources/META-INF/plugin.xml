@@ -58,7 +58,8 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <projectService serviceInterface="cn.neday.excavator.service.WatchService"
+                        serviceImplementation="cn.neday.excavator.service.WatchServiceImpl"/>
         <!-- 自定义配置界面 -->
         <applicationConfigurable instance="cn.neday.excavator.setting.Setting"/>
         <!-- 自定义控制台输入 canCloseContents 允许用户关闭 -->

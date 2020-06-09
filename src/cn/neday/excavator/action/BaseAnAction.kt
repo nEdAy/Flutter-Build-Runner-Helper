@@ -32,7 +32,9 @@ abstract class BaseAnAction : AnAction() {
     abstract val errorMessage: String
 
     override fun update(event: AnActionEvent) {
-        event.presentation.isEnabledAndVisible = true
+        val project = event.getData(PlatformDataKeys.PROJECT)
+        val projectPath = project?.basePath
+        event.presentation.isEnabledAndVisible = ProjectChecker().check(projectPath)
     }
 
     override fun actionPerformed(event: AnActionEvent) {

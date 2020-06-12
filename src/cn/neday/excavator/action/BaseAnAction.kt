@@ -62,7 +62,7 @@ abstract class BaseAnAction : AnAction() {
     }
 
     private fun chooseFlutterPath(project: Project, flutterName: String): String {
-        val descriptor = FileChooserDescriptorFactory.createSingleFileDescriptor()
+        val descriptor = FileChooserDescriptorFactory.createSingleFileOrFolderDescriptor()
                 .withFileFilter { virtualFile ->
                     val name = virtualFile.name.toLowerCase()
                     name == flutterName
@@ -94,20 +94,27 @@ abstract class BaseAnAction : AnAction() {
             val fillCmd = "$flutterPath $cmd"
             log(jTextArea, verticalBar, "\$ $fillCmd")
             val process = Runtime.getRuntime().exec(fillCmd, null, File(dirPath))
+            val bufferedErrorStream = BufferedInputStream(process.errorStream)
             val bufferedInputStream = BufferedInputStream(process.inputStream)
-            val bufferedReader = BufferedReader(InputStreamReader(bufferedInputStream, "GBK"))
+            val bufferedErrorReader = BufferedReader(InputStreamReader(bufferedErrorStream, "GBK"))
+            val bufferedInputReader = BufferedReader(InputStreamReader(bufferedInputStream, "GBK"))
             var lineStr: String?
-            while (bufferedReader.readLine().also { lineStr = it } != null) {
+            while (bufferedInputReader.readLine().also { lineStr = it } != null) {
+                log(jTextArea, verticalBar, lineStr)
+            }
+            while (bufferedErrorReader.readLine().also { lineStr = it } != null) {
                 log(jTextArea, verticalBar, lineStr)
             }
             val exitVal = process.waitFor()
-            bufferedReader.close()
+            bufferedErrorReader.close()
+            bufferedInputReader.close()
+            bufferedErrorStream.close()
             bufferedInputStream.close()
             isBuildRunnerSuccess = if (exitVal == 0) {
-                log(jTextArea, verticalBar, "build_runner Success!")
+                log(jTextArea, verticalBar, "build_runner Success! Exit with code: $exitVal")
                 true
             } else {
-                log(jTextArea, verticalBar, "build_runner Error!")
+                log(jTextArea, verticalBar, "build_runner Error! Exit with code: $exitVal")
                 false
             }
         }, successAction = {

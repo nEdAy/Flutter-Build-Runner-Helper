@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>cn.neday.excavator</id>
     <name>Flutter Build Runner Helper</name>
-    <version>1.4</version>
+    <version>1.5</version>
     <vendor email="shengsu15@gmail.com" url="http://www.neday.cn">nEdAy</vendor>
 
     <description><![CDATA[
@@ -23,6 +23,12 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>1.5</b>
+        <ul>
+            <li>Only Flutter Project show icons of actions.</li>
+            <li>Only can choose single file,can not choose folder when choose where is flutter path.</li>
+            <li>Both output inputStream and errorStream.</li>
+        </ul>
         <b>1.4</b>
         <ul>
             <li>Optimize UI/Hint.</li>

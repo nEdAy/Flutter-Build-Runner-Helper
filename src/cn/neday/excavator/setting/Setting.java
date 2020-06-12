@@ -51,7 +51,7 @@ public class Setting implements Configurable {
         mButton.setText(flutterPath);
         _lastValue = flutterPath;
         mButton.addBrowseFolderListener("Choose Your Flutter", hintWord, null,
-                FileChooserDescriptorFactory.createSingleFileDescriptor().withFileFilter(virtualFile -> {
+                FileChooserDescriptorFactory.createSingleFileOrFolderDescriptor().withFileFilter(virtualFile -> {
                     String name = virtualFile.getName().toLowerCase();
                     return name.equals(flutterName);
                 }));

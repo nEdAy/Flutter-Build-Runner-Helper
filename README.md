@@ -1,4 +1,4 @@
-# Flutter-Build-Runner-Helper
+# [Flutter-Build-Runner-Helper](https://plugins.jetbrains.com/plugin/14442-flutter-build-runner-helper)
 A plugin for Android Studio that speeds up your day to day flutter development.
 Flutter Build Runner Helper, to make it easier to execute build_runner commands.
 

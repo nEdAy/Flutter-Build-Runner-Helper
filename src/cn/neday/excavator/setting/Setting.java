@@ -51,7 +51,7 @@ public class Setting implements Configurable {
         mButton.setText(flutterPath);
         _lastValue = flutterPath;
         mButton.addBrowseFolderListener("Choose Your Flutter", hintWord, null,
-                FileChooserDescriptorFactory.createSingleFileOrFolderDescriptor().withFileFilter(virtualFile -> {
+                FileChooserDescriptorFactory.createSingleFileDescriptor().withFileFilter(virtualFile -> {
                     String name = virtualFile.getName().toLowerCase();
                     return name.equals(flutterName);
                 }));
@@ -60,6 +60,9 @@ public class Setting implements Configurable {
 
     @Override
     public boolean isModified() {
+        if (_lastValue == null) {
+            return false;
+        }
         return !_lastValue.equals(mButton.getText());
     }
 

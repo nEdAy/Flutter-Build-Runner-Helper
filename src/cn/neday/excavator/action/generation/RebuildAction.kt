@@ -1,7 +1,6 @@
-package cn.neday.excavator.action
+package cn.neday.excavator.action.generation
 
-class Rebuild : BaseAnAction() {
-
+class RebuildAction : BaseGenerationAnAction() {
     override val cmd = "packages pub run build_runner build --delete-conflicting-outputs\n"
     override val title = "Rebuilding"
     override val successMessage = "Complete!\nRunning rebuild successfully."

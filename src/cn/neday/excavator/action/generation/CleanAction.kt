@@ -1,7 +1,6 @@
-package cn.neday.excavator.action
+package cn.neday.excavator.action.generation
 
-class Clean : BaseAnAction() {
-
+class CleanAction : BaseGenerationAnAction() {
     override val cmd = "packages pub run build_runner clean"
     override val title = "Cleaning"
     override val successMessage = "Complete!\nRunning clean successfully."

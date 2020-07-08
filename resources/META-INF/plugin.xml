@@ -1,8 +1,8 @@
 <idea-plugin>
     <id>cn.neday.excavator</id>
     <name>Flutter Build Runner Helper</name>
-    <version>1.6</version>
-    <vendor email="shengsu15@gmail.com" url="http://www.neday.cn">nEdAy</vendor>
+    <version>1.7</version>
+    <vendor email="shengsu15@gmail.com" url="http://blog.neday.cn">nEdAy</vendor>
 
     <description><![CDATA[
       A plugin for Android Studio that speeds up your day to day flutter development.<br />
@@ -13,6 +13,9 @@
             <li>Rebuild : flutter packages pub run build_runner build --delete-conflicting-outputs</li>
             <li>Watch : flutter packages pub run build_runner watch</li>
             <li>Clean : flutter packages pub run build_runner clean</li>
+        <br />
+            <li>Kill Gradle : Kill Gradle if a current task is running</li>
+            <li>Kill Flutter : Kill Flutter if a current task is running</li>
         </ul>
         <br />
         There are two basic ways to invoke a command:
@@ -23,6 +26,10 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>1.7</b>
+        <ul>
+            <li>Add two new Actions: 'Kill Gradle' and 'Kill Flutter'.</li>
+        </ul>
         <b>1.6</b>
         <ul>
             <li>Only can choose single file,can not choose folder when choose where is flutter path.</li>
@@ -81,27 +88,45 @@
 
     <actions>
         <!-- Add your actions here -->
-        <action id="cn.neday.excavator.action.Build" class="cn.neday.excavator.action.Build" text="Build Runner Build"
+        <action id="cn.neday.excavator.action.kill.KillGradleAction"
+                class="cn.neday.excavator.action.kill.KillGradleAction"
+                text="Kill Gradle"
+                description="Kill Gradle if a current task is running" icon="/icons/ic_kill_gradle.svg">
+            <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt K"/>
+        </action>
+        <action id="cn.neday.excavator.action.kill.KillFlutterAction"
+                class="cn.neday.excavator.action.kill.KillFlutterAction"
+                text="Kill Flutter"
+                description="Kill Flutter if a current task is running" icon="/icons/ic_kill_flutter.svg">
+            <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt alt K"/>
+        </action>
+        <action id="cn.neday.excavator.action.generation.BuildAction"
+                class="cn.neday.excavator.action.generation.BuildAction" text="Build Runner Build"
                 description="Invoked 'flutter packages pub run build_runner build'" icon="/icons/ic_build.svg">
             <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl meta alt B"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt B"/>
         </action>
-        <action id="cn.neday.excavator.action.Rebuild" class="cn.neday.excavator.action.Rebuild"
+        <action id="cn.neday.excavator.action.generation.RebuildAction"
+                class="cn.neday.excavator.action.generation.RebuildAction"
                 text="Build Runner Rebuild"
                 description="Invoked 'flutter packages pub run build_runner build --delete-conflicting-outputs'"
                 icon="/icons/ic_rebuild.svg">
             <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl meta alt R"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt R"/>
         </action>
-        <action id="cn.neday.excavator.action.Watch" class="cn.neday.excavator.action.Watch" text="Build Runner Watch"
+        <action id="cn.neday.excavator.action.generation.WatchAction"
+                class="cn.neday.excavator.action.generation.WatchAction" text="Build Runner Watch"
                 description="Invoked 'flutter packages pub run build_runner watch'" icon="/icons/ic_watch.svg">
             <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl meta alt W"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt W"/>
         </action>
-        <action id="cn.neday.excavator.action.Clean" class="cn.neday.excavator.action.Clean" text="Build Runner Clean"
+        <action id="cn.neday.excavator.action.generation.CleanAction"
+                class="cn.neday.excavator.action.generation.CleanAction" text="Build Runner Clean"
                 description="Invoked 'flutter packages pub run build_runner clean'" icon="/icons/ic_clean.svg">
             <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl meta alt C"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt C"/>
         </action>
     </actions>
 </idea-plugin>

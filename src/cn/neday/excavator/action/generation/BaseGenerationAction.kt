@@ -1,9 +1,9 @@
-package cn.neday.excavator.action
+package cn.neday.excavator.action.generation
 
+import cn.neday.excavator.action.BaseAnAction
 import cn.neday.excavator.checker.ProjectChecker
 import cn.neday.excavator.setting.Setting.FLUTTER_PATH_KEY
 import com.intellij.ide.util.PropertiesComponent
-import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.fileChooser.FileChooser
@@ -12,7 +12,6 @@ import com.intellij.openapi.progress.PerformInBackgroundOption
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowManager
 import java.io.BufferedInputStream
@@ -24,8 +23,7 @@ import javax.swing.JScrollPane
 import javax.swing.JTextArea
 
 
-abstract class BaseAnAction : AnAction() {
-
+abstract class BaseGenerationAnAction : BaseAnAction() {
     abstract val cmd: String
     abstract val title: String
     abstract val successMessage: String
@@ -43,8 +41,7 @@ abstract class BaseAnAction : AnAction() {
             val propertiesComponent = PropertiesComponent.getInstance()
             var flutterPath = propertiesComponent.getValue(FLUTTER_PATH_KEY)
             if (flutterPath.isNullOrEmpty()) {
-                val isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows")
-                val flutterName = if (isWindows) "flutter.bat" else "flutter"
+                val flutterName = if (isWindowsOS()) "flutter.bat" else "flutter"
                 showInfo("flutter path not know, where is your flutter? Please choose your flutter, maybe it path is '../../flutter/bin/$flutterName'.")
                 flutterPath = chooseFlutterPath(project, flutterName)
                 if (flutterPath == CANCEL_SIGNAL) {
@@ -126,14 +123,6 @@ abstract class BaseAnAction : AnAction() {
         }, failAction = {
             showErrorMessage(errorMessage + ", message:" + it.localizedMessage)
         })
-    }
-
-    private fun showInfo(message: String) {
-        Messages.showMessageDialog(message, "Flutter Build Runner Helper", Messages.getInformationIcon())
-    }
-
-    private fun showErrorMessage(message: String) {
-        Messages.showMessageDialog(message, "Flutter Build Runner Helper", Messages.getErrorIcon())
     }
 
     private fun log(jTextArea: JTextArea, verticalBar: JScrollBar, message: String?) {

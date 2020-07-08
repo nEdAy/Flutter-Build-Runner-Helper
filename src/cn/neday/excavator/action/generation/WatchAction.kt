@@ -1,7 +1,6 @@
-package cn.neday.excavator.action
+package cn.neday.excavator.action.generation
 
-class Watch : BaseAnAction() {
-
+class WatchAction : BaseGenerationAnAction() {
     override val cmd = "packages pub run build_runner watch"
     override val title = "Watching"
     override val successMessage = "Complete!\nRunning watch successfully."

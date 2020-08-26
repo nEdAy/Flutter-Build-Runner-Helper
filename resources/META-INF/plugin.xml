@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>cn.neday.excavator</id>
     <name>Flutter Build Runner Helper</name>
-    <version>1.8</version>
+    <version>1.9</version>
     <vendor email="shengsu15@gmail.com" url="http://blog.neday.cn">nEdAy</vendor>
 
     <description><![CDATA[
@@ -26,6 +26,10 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>1.9</b>
+        <ul>
+            <li>Modify the Project SDK to Android Studio AI-193.6911.18.40.6514223.</li>
+        </ul>
         <b>1.8</b>
         <ul>
             <li>Modify the Project SDK to IntelliJ IDEA IU-201.8743.12.</li>

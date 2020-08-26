@@ -13,7 +13,7 @@ import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
-import com.intellij.openapi.wm.impl.ToolWindowManagerImpl
+import com.intellij.openapi.wm.ToolWindowManager
 import java.io.BufferedInputStream
 import java.io.BufferedReader
 import java.io.File
@@ -81,12 +81,12 @@ abstract class BaseGenerationAnAction : BaseAnAction() {
     private fun execCommand(project: Project, flutterPath: String, dirPath: String) {
         var isBuildRunnerSuccess = false
         // 将项目对象，ToolWindow的id传入，获取控件对象
-        val toolWindow: ToolWindow? = ToolWindowManagerImpl(project).getToolWindow("Flutter Build Runner Console Tool")
+        val toolWindow: ToolWindow? = ToolWindowManager.getInstance(project).getToolWindow("Flutter Build Runner Console Tool")
         // 无论当前状态为关闭/打开，进行强制打开ToolWindow
         toolWindow?.show {}
-        val jScrollPane = toolWindow?.contentManager?.getContent(0)?.component?.getComponent(0) as JScrollPane
-        val verticalBar: JScrollBar = jScrollPane.verticalScrollBar
-        val jTextArea = jScrollPane.viewport.getComponent(0) as JTextArea
+        val jScrollPane = toolWindow?.contentManager?.getContent(0)?.component?.getComponent(0) as? JScrollPane?
+        val verticalBar: JScrollBar? = jScrollPane?.verticalScrollBar
+        val jTextArea = jScrollPane?.viewport?.getComponent(0) as? JTextArea?
         project.asyncTask(title = title, runAction = {
             val fillCmd = "$flutterPath $cmd"
             log(jTextArea, verticalBar, "\$ $fillCmd")
@@ -125,8 +125,8 @@ abstract class BaseGenerationAnAction : BaseAnAction() {
         })
     }
 
-    private fun log(jTextArea: JTextArea, verticalBar: JScrollBar, message: String?) {
-        if (!message.isNullOrEmpty()) {
+    private fun log(jTextArea: JTextArea?, verticalBar: JScrollBar?, message: String?) {
+        if (!message.isNullOrEmpty() && jTextArea != null && verticalBar != null) {
             println(message)
             jTextArea.append("\n" + message)
             verticalBar.value = verticalBar.maximum

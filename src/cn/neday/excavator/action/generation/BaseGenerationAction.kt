@@ -81,7 +81,7 @@ abstract class BaseGenerationAnAction : BaseAnAction() {
     private fun execCommand(project: Project, flutterPath: String, dirPath: String) {
         var isBuildRunnerSuccess = false
         // 将项目对象，ToolWindow的id传入，获取控件对象
-        val toolWindow: ToolWindow? = ToolWindowManager.getInstance(project).getToolWindow("Flutter Build Runner Console Tool")
+        val toolWindow: ToolWindow? = ToolWindowManager.getInstance(project).getToolWindow("Build Runner")
         // 无论当前状态为关闭/打开，进行强制打开ToolWindow
         toolWindow?.show {}
         val jScrollPane = toolWindow?.contentManager?.getContent(0)?.component?.getComponent(0) as? JScrollPane?

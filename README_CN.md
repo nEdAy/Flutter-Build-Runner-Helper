@@ -2,15 +2,14 @@
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-### [中文文档](https://github.com/nEdAy/Flutter-Build-Runner-Helper/blob/master/README_CN.md)
+### [English Document](https://github.com/nEdAy/Flutter-Build-Runner-Helper/blob/master/README.md)
 
-一个Android Studio的插件(IntelliJ IDEA)，加速你的日常Flutter开发。 Flutter build_runner 助手，使执行build_runner命令更简单。
+A plugin for Android Studio(IntelliJ IDEA) that speeds up your day-to-day flutter development. Flutter Build Runner
+Helper, to make it easier to execute build_runner commands.
 
-> **如果你觉得这个工具对你有用，随手给个 Star，让我知道它是对你有帮助的，我会继续更新和维护它。**
+### Feature
 
-### 功能
-
-Adds the following build_runner commands to Android Studio:
+Adds the following build_runner commands to Android Studio(IntelliJ IDEA):
 
 - Build : flutter packages pub run build_runner build
 - Rebuild : flutter packages pub run build_runner build --delete-conflicting-outputs
@@ -25,7 +24,7 @@ There are two basic ways to invoke a command:
 - Click the action button in the Toolbar.
 - Use the shortcut key.
 
-### 使用方法
+### Instruction manual
 
 Option 0: Search the Plugins Marketplace for the 'Flutter Build Runner Helper' and install it.
 

@@ -42,7 +42,7 @@ abstract class BaseGenerationAnAction : BaseAnAction() {
             var flutterPath = propertiesComponent.getValue(FLUTTER_PATH_KEY)
             if (flutterPath.isNullOrEmpty()) {
                 val flutterName = if (isWindowsOS()) "flutter.bat" else "flutter"
-                showInfo("flutter path not know, where is your flutter? Please choose your flutter, maybe it path is '../../flutter/bin/$flutterName'.")
+                showInfo("Flutter path is not defined. Please locate your Flutter installation directory (../../flutter/bin/$flutterName).")
                 flutterPath = chooseFlutterPath(project, flutterName)
                 if (flutterPath == CANCEL_SIGNAL) {
                     return

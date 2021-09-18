@@ -1,8 +1,8 @@
 # [Flutter-Build-Runner-Helper](https://plugins.jetbrains.com/plugin/14442-flutter-build-runner-helper)
 
-[Download Link - 下载地址](https://plugins.jetbrains.com/plugin/14442-flutter-build-runner-helper)
-
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+[Download Link - 下载地址](https://plugins.jetbrains.com/plugin/14442-flutter-build-runner-helper)
 
 ### [中文文档](https://github.com/nEdAy/Flutter-Build-Runner-Helper/blob/master/README_CN.md)
 
